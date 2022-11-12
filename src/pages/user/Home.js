@@ -1,6 +1,6 @@
 import React from 'react'
-import UserLayout from '../components/Layout/User/UserLayout'
-import img from '../assets/hero.jpg'
+import UserLayout from '../../components/Layout/User/UserLayout'
+import img from '../../assets/hero.jpg'
 function HeroSection(){
   return(
     <section className='grid grid-cols-1 grid-rows-3 content-center gap-4 m-auto my-8 max-w-[100rem]md:grid-rows-2 md:grid-cols-2 md:gap-8 md:mt-12
