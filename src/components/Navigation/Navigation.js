@@ -23,36 +23,36 @@ export function Footer() {
           <div className='flex flex-col  align-start gap-4'>
           <p className="text-dark fw-bold fs-xl">About</p>
                     <ul className="flex flex-col gap-2 ">
-                        <li><a >How it works</a></li>
-                        <li><a >Featured</a></li>
-                        <li><a >Partnership</a></li>
-                        <li><a >Business Relations</a></li>
+                        <li><a  href="/#">How it works</a></li>
+                        <li><a  href="/#">Featured</a></li>
+                        <li><a  href="/#">Partnership</a></li>
+                        <li><a  href="/#">Business Relations</a></li>
                     </ul>
           </div>
           <div className="bottom-nav__col flex flex-col  align-start  gap-4">
                     <p className="text-dark fw-bold fs-xl">Community</p>
                     <ul className="flex flex-col gap-2">
-                        <li><a >Events</a></li>
-                        <li><a >Podcast</a></li>
-                        <li><a >Blog</a></li>
-                        <li><a >Invite a friend</a></li>
+                        <li><a  href="/#">Events</a></li>
+                        <li><a  href="/#">Podcast</a></li>
+                        <li><a  href="/#">Blog</a></li>
+                        <li><a  href="/#">Invite a friend</a></li>
                     </ul>
                 </div>
                 <div className="bottom-nav__col flex flex-col  align-start gap-4">
                     <p className="text-dark fw-bold fs-xl">Socials</p>
                     <ul className="flex flex-col gap-2">
-                        <li><a >Discord</a></li>
-                        <li><a >Instagram</a></li>
-                        <li><a >Twitter</a></li>
-                        <li><a >Facebook</a></li>
+                        <li><a  href="/#">Discord</a></li>
+                        <li><a  href="/#">Instagram</a></li>
+                        <li><a  href="/#">Twitter</a></li>
+                        <li><a  href="/#">Facebook</a></li>
                     </ul>
                 </div>
 
         </nav>
         <div className="legal flex md:flex-row flex-col gap-3 wrap p-4">
                 <p className="text-dark fw-bold flex-1 text-sm md:text-base">©2022 caromatic. All rights reserved</p>
-                <a className="text-sm md:text-base">Privacy Policy</a>
-                <a className="text-sm md:text-base">Terms and conditions</a>
+                <a  href="/#"className="text-sm md:text-base">Privacy Policy</a>
+                <a  href="/#"className="text-sm md:text-base">Terms and conditions</a>
             </div>
 
       </footer>

@@ -1,7 +1,35 @@
 import React from 'react'
 import google from '../../assets/icons/google.svg'
-
+import {useEffect} from 'react'
+import {useSelector,useDispatch} from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { reset ,signup} from "../../features/userAuth/userAuthSlice";
+import { useForm } from "react-hook-form";
 function Signup() {
+
+  const {
+    register,
+    handleSubmit,watch,
+    formState: { errors },
+  } = useForm(); 
+  const onSubmit = async data => { 
+    console.log(data); 
+    dispatch(signup(data))
+  };
+
+  const navigate = useNavigate()
+const dispatch = useDispatch()
+const {user,isLoading,isError,isSuccess,message } = useSelector((state)=>state.userAuth)
+
+useEffect(()=>{ 
+  if(isError){
+      alert(isError)
+  }
+  if(isSuccess  || user) {
+      navigate('/')
+  } 
+      dispatch(reset())
+},[user,isError,isSuccess,message,navigate,dispatch])
   return (
     <div>
         <div className="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">
@@ -22,11 +50,11 @@ function Signup() {
           </p>
           <p className="mt-6 text-sm text-center text-gray-300">
             Read our{" "}
-            <a href="#" className="underline">
+            <a href="/#" className="underline">
               terms
             </a>{" "}
             and{" "}
-            <a href="#" className="underline">
+            <a href="/#" className="underline">
               conditions
             </a>
           </p>
@@ -35,7 +63,25 @@ function Signup() {
           <h3 className="my-4 text-2xl font-semibold text-gray-700">
             Account Signup
           </h3>
-          <form action="/" className="flex flex-col space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
+          <div className="flex flex-col space-y-1">
+              <label
+                htmlFor="name"
+                className="text-sm font-semibold text-gray-500"
+              >
+                Name
+              </label>
+              <input
+                id="name"
+                autoFocus
+                name='name'
+                {...register("name", { required: true,  })}
+                className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
+              />
+              {errors.email && errors.email.type === "required" && (
+                  <p className="text-red-600 text-sm">please enter your name</p>
+                )}
+            </div>
             <div className="flex flex-col space-y-1">
               <label
                 htmlFor="email"
@@ -48,8 +94,12 @@ function Signup() {
                 id="email"
                 autoFocus
                 name='email'
+                {...register("email", { required: true,  })}
                 className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
+              {errors.email && errors.email.type === "required" && (
+                  <p className="text-red-600 text-sm">please enter your email</p>
+                )}
             </div>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center justify-between">
@@ -65,8 +115,11 @@ function Signup() {
                 name='phone'
                 type="number"
                 id="phone"
+                {...register('phone', { required: 'please enter phone number', minLength: { value: 10, message: 'phone number must be 10 numbers' }, maxLength: { value: 10, message: 'cannot exceed more than 10 numbers' } })}
                 className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
+                                            {errors.phone && <p className="text-red-600 text-sm">{errors.phone?.message}</p>}
+
             </div>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center justify-between">
@@ -82,8 +135,10 @@ function Signup() {
                 type="password"
                 id="password"
                 name='password'
+                {...register('password', { required: 'Please enter password', minLength: { value: 8, message: 'Password must be 8 characters' } })}
                 className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
+              {errors.password && <p className="text-red-600 text-sm">{errors.password?.message}</p>}
             </div>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center justify-between">
@@ -96,11 +151,20 @@ function Signup() {
                 
               </div>
               <input
-                type="c_password"
-                id="c_password"
-                name='c_password'
+                type="password"
+                id="password2"
+                name='password2'
+                {...register('password2', {
+                  required: 'Please enter Confirm password', validate: (val) => {
+                    if (watch('password') !== val) {
+                      return 'Passwords are not match'
+                    }
+                  }
+                })}
                 className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
+             {errors.password2 && <p className="text-red-600 text-sm">{errors.password2?.message}</p>}
+
             </div>
             
             <div>
@@ -134,7 +198,7 @@ function Signup() {
         </div>
       </div>
     </div>
-    </div>
+</div>
   )
 }
 

@@ -1,6 +1,36 @@
 import React from "react";
+import {useEffect} from 'react'
+import {useSelector,useDispatch} from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import google from '../../assets/icons/google.svg'
+import { reset ,login} from "../../features/userAuth/userAuthSlice";
+import { useForm } from "react-hook-form";
+
 function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();  
+  const onSubmit = async data => { 
+    console.log(data); 
+    dispatch(login(data))
+  };
+
+const navigate = useNavigate()
+const dispatch = useDispatch()
+const {user,isLoading,isError,isSuccess,message } = useSelector((state)=>state.userAuth)
+
+useEffect(()=>{ 
+  if(isError){
+      alert(isError)
+  }
+  if(isSuccess  || user) {
+      navigate('/')
+  } 
+      dispatch(reset())
+},[user,isError,isSuccess,message,navigate,dispatch])
+
   return (
     <div className="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">
       <div className="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md">
@@ -20,11 +50,11 @@ function Login() {
           </p>
           <p className="mt-6 text-sm text-center text-gray-300">
             Read our{" "}
-            <a href="#" className="underline">
+            <a href="/#" className="underline">
               terms
             </a>{" "}
             and{" "}
-            <a href="#" className="underline">
+            <a href="/#" className="underline">
               conditions
             </a>
           </p>
@@ -33,7 +63,7 @@ function Login() {
           <h3 className="my-4 text-2xl font-semibold text-gray-700">
             Account Login
           </h3>
-          <form action="/" className="flex flex-col space-y-5">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col space-y-5">
             <div className="flex flex-col space-y-1">
               <label
                 htmlFor="email"
@@ -42,11 +72,16 @@ function Login() {
                 Email address
               </label>
               <input
-                type="email"
-                id="email"
+
+                id="email" 
+                name="email" 
+                {...register("email", { required: true,  })}
                 autoFocus
                 className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
+              {errors.email && errors.email.type === "required" && (
+                  <p className="text-red-600 text-sm">please enter your email</p>
+                )}
             </div>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center justify-between">
@@ -64,10 +99,15 @@ function Login() {
                 </a>
               </div>
               <input
+               {...register("password", { required: true,  })}
                 type="password"
                 id="password"
+                name="password"
                 className="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
               />
+              {errors.password && errors.password.type === "required" && (
+                  <p className="text-red-600 text-sm">please enter your password</p>
+                )}
             </div>
             <div className="flex items-center space-x-2">
               <input
