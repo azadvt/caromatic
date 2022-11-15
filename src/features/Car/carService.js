@@ -12,6 +12,7 @@ const addCar = async (carData,token) => {
         }
     }
     const response = await axios.post(API_URL_ADMIN+'add-car',carData,config)
+    return response.data
 }
 
 const getCars = async(token)=> {
@@ -31,6 +32,7 @@ const deleteCar = async (id,token)=>{
         }
     }
     const response = await axios.delete(`${API_URL_ADMIN}delete-car?id=${id}`,config)
+    return response.data
 
 }
 

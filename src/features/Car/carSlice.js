@@ -13,7 +13,6 @@ const initialState = {
 export const addCar = createAsyncThunk(
   "car/addCar",
   async (carData, thunkAPI) => {
-    console.log("add car",carData );
     try {
       const token = thunkAPI.getState().adminAuth?.admin?.token
       return await carService.addCar(carData,token);
@@ -32,7 +31,6 @@ export const addCar = createAsyncThunk(
 export const getCars = createAsyncThunk("car/getCars",async(_,thunkAPI)=>{
       try {
         const token = thunkAPI.getState().adminAuth?.admin?.token
-        console.log('token',token);
         return await carService.getCars(token)
       } catch (error) {
         const message = (error.response &&
@@ -47,7 +45,6 @@ export const getCars = createAsyncThunk("car/getCars",async(_,thunkAPI)=>{
 
 export const deleteCar = createAsyncThunk("car/deleteCar",async(id,thunkAPI)=>{
   try {
-    console.log("deletecaar ");
     const token = thunkAPI.getState().adminAuth?.admin?.token
     return await carService.deleteCar(id,token)
   } catch (error) {

@@ -17,7 +17,7 @@ import swal from 'sweetalert';
 
 function AdminCars() {
   const dispatch = useDispatch();
-  const { carData, isLoading, isError, isSuccess, message } = useSelector(
+  const { carData, isLoading, isSuccess } = useSelector(
     (state) => state.car
   );
 
@@ -30,7 +30,7 @@ function AdminCars() {
       buttons: true,
       dangerMode: true,
     }) .then((willDelete) => {
-      if (willDelete) {
+      if (isSuccess) {
         dispatch(deleteCar(id)).then(() => {
               swal("Car was Deleted Successfully", {
                   icon: "success",
