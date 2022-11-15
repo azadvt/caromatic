@@ -10,7 +10,6 @@ function UserRoute() {
         <Route path="/" element={<Home/>} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
-        <Route path="*" element={<p>Path not resolved</p>} />
 
       </Routes>
     </>

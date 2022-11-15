@@ -7,6 +7,7 @@ function App() {
     <>
       <Router>
         <AdminRoute/>
+
         <UserRoute/>
       </Router>
       </>  
