@@ -28,7 +28,7 @@ if(isLoading){
       ))}
     </div>
     <button
-        className="py-4 px-6  rounded-sm m-auto mt-4"
+        className="py-4 px-6   rounded-sm m-auto mt-4"
       >View More</button>
   </section>
     )

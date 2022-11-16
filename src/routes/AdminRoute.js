@@ -18,6 +18,7 @@ function AdminRoute() {
         <Route path={"/admin/add-car"} element={admin ? <AddCar/> : <AdminLogin/>}/>
         <Route path={"/admin/get-users"} element={admin ? <UserManagement/> : <AdminLogin/>}/>
 
+
       </Routes>
     </>
   );
