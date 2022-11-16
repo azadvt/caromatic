@@ -31,6 +31,7 @@ export const addCar = createAsyncThunk(
 export const getCars = createAsyncThunk("car/getCars",async(_,thunkAPI)=>{
       try {
         const token = thunkAPI.getState().adminAuth?.admin?.token
+
         return await carService.getCars(token)
       } catch (error) {
         const message = (error.response &&
