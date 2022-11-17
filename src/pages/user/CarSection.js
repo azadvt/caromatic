@@ -69,7 +69,7 @@ function CarDetails({car}) {
         <div className="flex md:flex-row flex-col justify-between md:items-end lg:gap-6 gap-4">
           <div className="flex-1">
             <p className="text-almost-black fw-bold fs-xl">
-              {car[0]?.price} /<span className="fs-sm text-light fw-base">day</span>
+              {car[0]?.price} /<span className="fs-sm text-light fw-base">Hour</span>
             </p>
 
             
@@ -107,6 +107,7 @@ function CarPictures({car}) {
         onClick={() => {
           setActivePic(0);
         }}
+        alt='car pic'
       ></img>
       <img
         className={"rounded-2xl" + ActiveBorder(1)}
@@ -114,6 +115,8 @@ function CarPictures({car}) {
         onClick={() => {
           setActivePic(1);
         }}
+        alt='car pic'
+
       ></img>
       <img
         className={"rounded-2xl" + ActiveBorder(2)}
@@ -121,6 +124,8 @@ function CarPictures({car}) {
         onClick={() => {
           setActivePic(2);
         }}
+        alt='car pic'
+
       ></img>
     </div>
   );
