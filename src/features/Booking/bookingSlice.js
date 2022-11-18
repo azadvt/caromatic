@@ -9,12 +9,29 @@ const initialState = {
   message: "",
 };
 
+
+export const stripeCheckOut = createAsyncThunk("booking/stripe",async(bookingData,thunkAPI)=>{
+  try {
+    const token = thunkAPI.getState().userAuth?.user?.token;
+    return await bookingService.stripeCheckout(bookingData,token)
+  } catch (error) {
+    const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+  }
+})
+
 //Add booking
 export const addBooking = createAsyncThunk(
   "booking/addBooking",
   async (bookingData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().userAuth?.user?.token;
+      console.log(token);
       return await bookingService.addBooking(bookingData, token);
     } catch (error) {
       const message =
@@ -32,8 +49,9 @@ export const getBookings = createAsyncThunk(
   "booking/getBookings",
   async (_, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().userAuth?.user?.token;
-      return await bookingService.getBookings(token);
+      const userData = thunkAPI.getState().userAuth?.user;
+      console.log("tokens",userData);
+      return await bookingService.getBookings(userData._id,userData.token);
     } catch (error) {
       const message =
         (error.response &&
@@ -77,13 +95,27 @@ export const bookingSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    .addCase(stripeCheckOut.pending, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(stripeCheckOut.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.message = action.payload;
+    })
+    .addCase(stripeCheckOut.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.bookingData = null;
+    })
       .addCase(addBooking.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(addBooking.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.bookingData = action.payload;
+        state.message = action.payload;
       })
       .addCase(addBooking.rejected, (state, action) => {
         state.isLoading = false;
@@ -119,6 +151,6 @@ export const bookingSlice = createSlice({
       });
   },
 });
-export const { reset, addBookingData } = bookingSlice.actions;
+export const { reset } = bookingSlice.actions;
 
 export default bookingSlice.reducer;

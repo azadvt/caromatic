@@ -6,11 +6,8 @@ import { getCars } from "../../features/Car/carSlice";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { addData } from "../../features/Booking/bookingPersisterSlice";
-
-
-axios.defaults.baseURL = "http://localhost:5000";
-const API_URL_USER = "api/users/";
+import { addData, clear } from "../../features/Booking/bookingPersisterSlice";
+import { stripeCheckOut } from "../../features/Booking/bookingSlice";
 
 
 function Checkout(props) {
@@ -52,9 +49,11 @@ function Checkout(props) {
   const dispatch = useDispatch();
   const { carData, isLoading } = useSelector((state) => state.car);
   const { user } = useSelector((state) => state.userAuth);
+  const {bookingData,isError,isSuccess,message} = useSelector((state)=>state.booking)
 
   useEffect(() => {
     dispatch(getCars());
+    dispatch(clear())
   }, [dispatch]);
 
   const car = carData.filter((carData) => carData._id === id);
@@ -93,22 +92,21 @@ function Checkout(props) {
       payment,
       total,
     };
+    console.log("click");
+    dispatch(stripeCheckOut(dataToServer))
     dispatch(addData(dataToRedux));
-    axios
-      .post(`${API_URL_USER}/create-checkout-session`, { dataToServer })
-      .then((res) => {
-        if (res.data.url) {
-          window.location.href = res.data.url;
-        }
-      })
-      .catch((err) => alert(err));
-  };
-
+       
+    
+      }
+      if (message.url) {
+        window.location.href = message.url;
+      }
   if (isLoading) {
     return (
         <LoadingSpinner />
     );
   }
+
 
   return (
     <>

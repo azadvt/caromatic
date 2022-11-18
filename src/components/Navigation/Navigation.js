@@ -16,7 +16,7 @@ export function NavbarTop() {
   }
   return (
     <nav className="top-nav px-4 py-8 bg-white items-center flex border-b border-b-secondary-200">
-      <p className="logo fw-bold text-2xl text-dark">caromatic</p>
+      <Link to='/'><p className="logo fw-bold text-2xl text-dark">caromatic</p></Link>
       <ul className="flex gap-3 md:gap-5 ml-auto items-center">
         {user ? <li>
           <img
@@ -29,7 +29,7 @@ export function NavbarTop() {
         <li> <Link to="/signup"><button className="bg-zinc-900 text-white p-2 rounded-lg hover:bg-zinc-800">signup</button></Link></li></> }
       </ul>
       {dropdown && user ? <div
-        className="absolute right-8 top-20  w-24 origin-top-right  rounded-md bg-white shadow-lg"
+        className="absolute right-8 top-20  w-30 origin-top-right  rounded-md bg-white shadow-lg"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
@@ -42,6 +42,15 @@ export function NavbarTop() {
           >
             Logout
           </a>
+          <Link to='/bookings'>
+          <a
+            
+            className="text-gray-700 block px-4 py-2 text-sm"
+          >
+            My Bookings
+          </a>
+          </Link>
+          
         </div>
        
       </div> : null}

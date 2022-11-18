@@ -23,7 +23,7 @@ const {user,isLoading,isError,isSuccess,message } = useSelector((state)=>state.u
 
 useEffect(()=>{ 
   if(isError){
-      alert(isError)
+      alert(message)
   }
   if(isSuccess  || user) {
       navigate('/')

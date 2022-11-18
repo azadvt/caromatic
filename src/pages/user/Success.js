@@ -12,17 +12,17 @@ function Success() {
 
   useEffect(() => {
     Data.bookingData[0] === undefined
-      ? navigate("/error")
+      ? navigate("/error") && dispatch(clear())
       : dispatch(addBooking(Data?.bookingData[0])) && dispatch(clear())
    
-  }, []);
+  }, [dispatch]);
 
 
 
   return (
     <div class="flex flex-col items-center justify-center w-screen h-screen bg-white">
-    <p class="text-5xl text-dark md:text-7xl lg:text-4xl">Your Order Placed Successfully</p>
-    <Link to="/orders"><button className="mt-8 bg-zinc-800 rounded-lg p-3 text-white">Go To Orders</button></Link>
+    <p class="text-5xl text-dark md:text-7xl lg:text-4xl">Car Booked Successfully</p>
+    <Link to="/bookings"><button className="mt-8 bg-zinc-800 rounded-lg p-3 text-white">Go To Orders</button></Link>
     </div>
   )
 }

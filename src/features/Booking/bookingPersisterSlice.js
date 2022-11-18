@@ -10,7 +10,7 @@ export const persistBookingSlice = createSlice({
   initialState,
   reducers: {
     addData: (state, { payload }) => {
-        state.bookingData = [...state.bookingData, payload];
+        state.bookingData = [payload];
     },
     clear: () => {
         localStorage.removeItem('persist:booking')
