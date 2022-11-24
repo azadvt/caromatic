@@ -31,7 +31,6 @@ export const addBooking = createAsyncThunk(
   async (bookingData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().userAuth?.user?.token;
-      console.log(token);
       return await bookingService.addBooking(bookingData, token);
     } catch (error) {
       const message =
@@ -50,8 +49,25 @@ export const getBookings = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const userData = thunkAPI.getState().userAuth?.user;
-      console.log("tokens",userData);
       return await bookingService.getBookings(userData._id,userData.token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getBookingsAdmin = createAsyncThunk(
+  "booking/getBookingsAdmin",
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().adminAuth?.admin?.token
+      return await bookingService.getBookingsAdmin(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -136,9 +152,24 @@ export const bookingSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
+      .addCase(getBookingsAdmin.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      .addCase(getBookingsAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.bookingData = action.payload;
+      })
+      .addCase(getBookingsAdmin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      
       .addCase(deleteBooking.pending, (state) => {
         state.isLoading = true;
       })
+      
       .addCase(deleteBooking.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;

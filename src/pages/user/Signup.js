@@ -5,6 +5,8 @@ import {useSelector,useDispatch} from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { reset ,signup} from "../../features/userAuth/userAuthSlice";
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify'
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'
 function Signup() {
 
   const {
@@ -13,7 +15,6 @@ function Signup() {
     formState: { errors },
   } = useForm(); 
   const onSubmit = async data => { 
-    console.log(data); 
     dispatch(signup(data))
   };
 
@@ -23,13 +24,20 @@ const {user,isLoading,isError,isSuccess,message } = useSelector((state)=>state.u
 
 useEffect(()=>{ 
   if(isError){
-      alert(message)
+      toast(message)
   }
   if(isSuccess  || user) {
       navigate('/')
   } 
       dispatch(reset())
 },[user,isError,isSuccess,message,navigate,dispatch])
+
+if(isLoading){
+  return(
+    <LoadingSpinner/>
+  )
+}
+
   return (
     <div>
         <div className="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">

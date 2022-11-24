@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Error from "../pages/Error/Error";
 import BookingsTable from "../pages/user/BookingsTable";
+import Carlisting from "../pages/user/Carlisting";
 import CarSection from "../pages/user/CarSection";
 import CheckOut from "../pages/user/CheckOut";
 import Home from "../pages/user/Home";
@@ -19,6 +20,7 @@ function UserRoute() {
         <Route path="/checkout" element={<CheckOut/>}/>
         <Route path="/success" element={<Success/>}/>
         <Route path="/bookings" element={<BookingsTable/>}/>
+        <Route path="/cars" element={<Carlisting/>}/>
         <Route path="*" element={<Error/>}/>
 
       </Routes>

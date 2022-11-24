@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import google from '../../assets/icons/google.svg'
 import { reset ,login} from "../../features/userAuth/userAuthSlice";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function Login() {
   const {
@@ -13,7 +15,6 @@ function Login() {
     formState: { errors },
   } = useForm();  
   const onSubmit = async data => { 
-    console.log(data); 
     dispatch(login(data))
   };
 
@@ -23,7 +24,8 @@ const {user,isLoading,isError,isSuccess,message } = useSelector((state)=>state.u
 
 useEffect(()=>{ 
   if(isError){
-      alert(isError)
+    console.log(message);
+      toast(message)
   }
   if(isSuccess  || user) {
       navigate('/')
@@ -31,6 +33,10 @@ useEffect(()=>{
       dispatch(reset())
 },[user,isError,isSuccess,message,navigate,dispatch])
 
+
+if(isLoading){
+  return (<LoadingSpinner/>)
+}
   return (
     <div className="flex items-center min-h-screen p-4 bg-gray-100 lg:justify-center">
       <div className="flex flex-col overflow-hidden bg-white rounded-md shadow-lg max md:flex-row md:flex-1 lg:max-w-screen-md">

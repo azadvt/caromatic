@@ -2,10 +2,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import getIcon from '../../Helpers/IconsHelper'
 
-
 function Sidebar() {
   const PiechartIcon = getIcon("piechart")
   const CarIcon = getIcon("car")
+  const Booking = getIcon("booking")
   return (
     <aside className="w-64 " aria-label="Sidebar">
       <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800 min-h-screen ">
@@ -31,8 +31,16 @@ function Sidebar() {
             </NavLink>
           </li>
              
-          
           <li>
+            <a
+              href="/admin/get-bookings"
+              className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+              <Booking/>
+              <span className="flex-1 ml-3 whitespace-nowrap">Bookings</span>
+            </a>
+          </li>
+          {/* <li>
             <a
               href="/#"
               className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -52,7 +60,7 @@ function Sidebar() {
                 3
               </span>
             </a>
-          </li>
+          </li> */}
           <li>
             <a
               href="/admin/get-users"

@@ -2,6 +2,7 @@ import axios  from "axios";
 axios.defaults.baseURL = 'http://localhost:5000';
 
 const API_URL_USER = 'api/users/'
+const API_URL_ADMIN ='api/admin/'
 
 
 const stripeCheckout = async (bookingData,token)=>{
@@ -34,6 +35,15 @@ const getBookings = async(id,token)=> {
     const response = await axios.get(`${API_URL_USER}get-bookings?userId=${id}`,config)
     return response.data    
 }
+const getBookingsAdmin = async(token)=> {
+    const config = {
+        headers:{
+            Authorization:`Bearer ${token}`
+        }
+    }
+    const response = await axios.get(`${API_URL_ADMIN}get-bookings`,config)
+    return response.data    
+}
 
 const deleteBooking = async (id,token)=>{
     const config = {
@@ -48,7 +58,7 @@ const deleteBooking = async (id,token)=>{
 
 
 const bookingService ={
-    addBooking,getBookings,deleteBooking,stripeCheckout
+    addBooking,getBookings,deleteBooking,stripeCheckout,getBookingsAdmin
 }
 
 export default bookingService

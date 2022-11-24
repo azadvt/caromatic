@@ -3,11 +3,13 @@ import carService from "./carService";
 
 const initialState = {
   carData: [],
+  filterCarsData:[],
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: "",
 };
+
 
 //Add Car
 export const addCar = createAsyncThunk(
@@ -69,6 +71,11 @@ export const carSlice = createSlice({
       state.isSuccess = false;
       state.message = "";
     },
+    filterCars : (state,action) => {
+      const filter = state.carData.filter(car => car.type===action.payload)
+      state.filterCarsData = [...state.filterCarsData,...filter]
+
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -93,6 +100,7 @@ export const carSlice = createSlice({
       .addCase(getCars.fulfilled,(state,action)=>{
         state.isLoading = false
         state.carData = action.payload
+
       }).addCase(getCars.rejected,(state,action)=>{
         state.isLoading = false
         state.isError = true
@@ -111,10 +119,11 @@ export const carSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
-      });
+      })
       
+     
   },
 });
-export const { reset } = carSlice.actions;
+export const { reset ,filterCars} = carSlice.actions;
 
 export default carSlice.reducer;

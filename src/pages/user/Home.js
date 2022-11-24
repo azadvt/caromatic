@@ -5,7 +5,7 @@ import ScrollDisplay from '../../components/CarDisplay/CarDisplay'
 function HeroSection(){
   return(
     <section className='grid grid-cols-1 grid-rows-1 content-center gap-4 m-auto my-8 max-w-[100rem]md:grid-rows-2 md:grid-cols-2 md:gap-8 md:mt-12
-    lg:my-16 '>
+       '>
       <div className='text-center max-w-2xl row-start-2 
         md:text-start
         lg:row-start-1 '>

@@ -1,7 +1,6 @@
 import React from "react";
 import Sidebar from "../../admin/Sidebar";
 import { AdminNavbarTop } from "../../Navigation/Navigation";
-
 function AdminLayout(props) {
   return (
     <div>

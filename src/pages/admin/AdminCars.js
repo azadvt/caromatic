@@ -21,7 +21,6 @@ function AdminCars() {
     (state) => state.car
   );
 
-
   const handleDelete = (id) => {
     swal({
       title: "Are you sure to Delete this Car?",
@@ -30,7 +29,7 @@ function AdminCars() {
       buttons: true,
       dangerMode: true,
     }) .then((willDelete) => {
-      if (isSuccess) {
+      if (willDelete) {
         dispatch(deleteCar(id)).then(() => {
               swal("Car was Deleted Successfully", {
                   icon: "success",
@@ -44,7 +43,7 @@ function AdminCars() {
 
   useEffect(() => {
     dispatch(getCars());
-  }, [dispatch]);
+  }, []);
   const data = carData;
   const columns = useMemo(
     () => [
@@ -82,7 +81,6 @@ function AdminCars() {
       {
         Header: "Delete",
         accessor:"_id",
-
         Cell: (row) => (
           <div>
             <button onClick={() => handleDelete(row.value)}>
@@ -125,6 +123,8 @@ function AdminCars() {
   } = tableInstance;
   const { pageIndex, pageSize } = state;
   const { globalFilter } = state;
+
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -136,7 +136,7 @@ function AdminCars() {
           <Link to="/admin/add-car">
             {" "}
             <button className="bg-zinc-900 text-white p-2 rounded-lg hover:bg-zinc-800 ">
-              AddCar
+              Add Car
             </button>
           </Link>
         </div>

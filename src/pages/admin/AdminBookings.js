@@ -6,81 +6,82 @@ import {
   usePagination,
 } from "react-table";
 import { useDispatch, useSelector } from "react-redux";
+import { deleteCar, getCars } from "../../features/Car/carSlice";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import AdminLayout from "../../components/Layout/Admin/AdminLayout";
 import GlobalFilter from "../../components/TableControls/GlobalFilter";
 import swal from "sweetalert";
-import { blockUser, getUsers, reset } from "../../features/users/userSlice";
-import { toast } from "react-toastify";
+import { getBookingsAdmin } from "../../features/Booking/bookingSlice";
 
-function UserManagement2() {
+function AdminBookings() {
   const dispatch = useDispatch();
-
-  const {userData,isLoading,isError,message } = useSelector(state => state.users)
-
-  console.log(useSelector(state => state.users));
- 
-  useEffect(() => {
-    toast(message?.message)
-    dispatch(reset())
-    console.log(message);
-
-    dispatch(getUsers());
-  }, [dispatch]);
-
-
-  const handleBlock = (id) => {
+  const { bookingData ,isLoading, isSuccess} = useSelector((state) => state.booking);
+  const handleDelete = (id) => {
     swal({
-        title: "Are you sure ?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-      }).then((willDelete) => {
+      title: "Are you sure to Delete this Order?",
+      text: "The Order will be Not showing in website",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
       if (willDelete) {
-        dispatch(blockUser(id)).then(() => {
-          swal("Changed user status", {
+        dispatch(deleteCar(id)).then(() => {
+          swal("Car was Deleted Successfully", {
             icon: "success",
           });
-          dispatch(getUsers());
+          dispatch(getCars());
         });
       }
     });
   };
-  
-  const data = userData;
+
+  useEffect(() => {
+    dispatch(getCars());
+    dispatch(getBookingsAdmin());
+  }, []);
+  const data = bookingData;
   const columns = useMemo(
     () => [
       {
-        Header: "Name",
+        Header: "User",
         accessor: "name",
       },
       {
-        Header: "Email",
-        accessor: "email",
+        Header: "Address",
+        accessor: "address",
       },
       {
-        Header: "Phone",
-        accessor: "phone",
-      },{
-        Header: "Status",
-        accessor: "isBlocked",
-        Cell: (row) => (
-          <div>
-            <p>{row.value===true? "Blocked user" : "not a blocked user"} </p>
-          </div>
-        ),
+        Header: "Drop off Location",
+        accessor: "dropOffLocation",
+      },
+
+      {
+        Header: "Drop off Time",
+        accessor: "dropOffTime",
       },
       {
-        Header: "Block",
-        accessor: "_id",
-        Cell: (row) => (
-          <div>
-            <button className="focus:outline-none text-white bg-zinc-500 hover:bg-white-800 focus:ring-4 focus:ring-black-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={() => handleBlock(row.value)}>
-            Change Status
-            </button>
-          </div>
-        ),
+        Header: "Pick Up Location",
+        accessor: "pickUpLocation",
       },
+      {
+        Header: "Pick Up Time",
+        accessor: "pickUpTime",
+      },
+      {
+        Header: "Total",
+        accessor: "total",
+      },
+    //   {
+    //     Header: "Delete",
+    //     accessor: "_id",
+    //     Cell: (row) => (
+    //       <div>
+    //         <button onClick={() => handleDelete(row.value)}>
+    //           <img src={dlt} alt="" width={15} />
+    //         </button>
+    //       </div>
+    //     ),
+    //   },
     ],
     []
   );
@@ -113,6 +114,7 @@ function UserManagement2() {
   } = tableInstance;
   const { pageIndex, pageSize } = state;
   const { globalFilter } = state;
+
   if (isLoading) {
     return <LoadingSpinner />;
   }
@@ -128,13 +130,13 @@ function UserManagement2() {
           className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
         >
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            {headerGroups.map((headerGroups) => (
-              <tr {...headerGroups.getHeaderGroupProps()}>
-                {headerGroups.headers.map((column) => (
+            {headerGroups.map((headerGroups,i) => (
+              <tr {...headerGroups.getHeaderGroupProps()} key={i}>
+                {headerGroups.headers.map((column,i) => (
                   <th
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     scope="col"
-                    className="py-3 px-6"
+                    className="py-3 px-6" key={i}
                   >
                     {column.render("Header")}{" "}
                     <span>
@@ -146,16 +148,16 @@ function UserManagement2() {
             ))}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
+            {page.map((row,i) => {
               prepareRow(row);
               return (
                 <tr
-                  {...row.getRowProps()}
+                  {...row.getRowProps()} key={i}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
-                  {row.cells.map((cell) => {
+                  {row.cells.map((cell,i) => {
                     return (
-                      <td className="py-4 px-6" {...cell.getCellProps()}>
+                      <td className="py-4 px-6" {...cell.getCellProps()} key={i}>
                         {cell.render("Cell")}
                       </td>
                     );
@@ -222,4 +224,4 @@ function UserManagement2() {
   );
 }
 
-export default UserManagement2;
+export default AdminBookings;

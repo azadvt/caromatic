@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCars } from "../../features/Car/carSlice";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { addData, clear } from "../../features/Booking/bookingPersisterSlice";
 import { stripeCheckOut } from "../../features/Booking/bookingSlice";
 
@@ -37,7 +36,6 @@ function Checkout(props) {
   if (1 > hours || isNaN(hours)) hours = 1;
 
 
-  const [Method, setMethod] = useState(-1);
   const location = useLocation();
   const id = location.state;
   const navigate = useNavigate();
@@ -47,9 +45,9 @@ function Checkout(props) {
 
 
   const dispatch = useDispatch();
-  const { carData, isLoading } = useSelector((state) => state.car);
-  const { user } = useSelector((state) => state.userAuth);
+  const { carData, isLoading} = useSelector((state) => state.car);
   const {bookingData,isError,isSuccess,message} = useSelector((state)=>state.booking)
+  const { user } = useSelector((state) => state.userAuth);
 
   useEffect(() => {
     dispatch(getCars());
@@ -92,11 +90,8 @@ function Checkout(props) {
       payment,
       total,
     };
-    console.log("click");
     dispatch(stripeCheckOut(dataToServer))
     dispatch(addData(dataToRedux));
-       
-    
       }
       if (message.url) {
         window.location.href = message.url;
@@ -316,9 +311,7 @@ function Checkout(props) {
                     id="stripe"
                     {...register("payment", { required: true })}
                     form="checkOut"
-                    onChange={(e) => {
-                      setMethod(1);
-                    }}
+    
                   ></input>
                   <label htmlFor="stripe" className="font-semibold">
                     Stripe

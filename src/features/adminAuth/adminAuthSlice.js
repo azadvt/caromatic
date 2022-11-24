@@ -16,7 +16,6 @@ const initialState = {
 //Login user
 export const  adminLogin = createAsyncThunk('authAdmin/login',async(admin,thunkAPI) => {
     try {
-        console.log(admin);
         return await authAdminService.adminLogin(admin)
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()

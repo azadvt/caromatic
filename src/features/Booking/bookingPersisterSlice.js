@@ -15,8 +15,11 @@ export const persistBookingSlice = createSlice({
     clear: () => {
         localStorage.removeItem('persist:booking')
     },
+    reset:(state) =>{
+        state.bookingData = null
+    }
   },
 });
-export const { addData ,clear} = persistBookingSlice.actions;
+export const { addData ,clear,reset} = persistBookingSlice.actions;
 
 export default persistBookingSlice.reducer;

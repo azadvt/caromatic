@@ -139,9 +139,9 @@ function AddCar() {
               <option className="text-zinc-500" value="" disabled selected>
                 Select your Car Type
               </option>
-              {TYPES.map((type) => {
+              {TYPES.map((type,i) => {
                 return (
-                  <option className="text-zinc-500" value={type.value}>
+                  <option className="text-zinc-500" value={type.value} key={i}>
                     {type.value}
                   </option>
                 );

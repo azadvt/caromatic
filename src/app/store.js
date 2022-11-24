@@ -1,12 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import userAuthReducer from "../features/userAuth/userAuthSlice";
 import adminAuthReducer from "../features/adminAuth/adminAuthSlice";
 import carReducer from "../features/Car/carSlice";
-import userReducer from "../features/userAuth/userAuthSlice";
+import userReducer from "../features/users/userSlice";
 import bookingReducer from "../features/Booking/bookingSlice";
 import bookingPersisterReducer from "../features/Booking/bookingPersisterSlice";
 import storage from 'redux-persist/lib/storage';
 import { persistReducer, persistStore } from 'redux-persist';
+
+ 
 
 const persistConfig = {
     key: 'booking',
@@ -24,6 +26,11 @@ export const store = configureStore({
     booking: bookingReducer,
     persistedReducer
   },
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: false,
+  }),
+
 });
 
 export const persistor = persistStore(store);

@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import UserLayout from "../../components/Layout/User/UserLayout";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { getBookings } from "../../features/Booking/bookingSlice";
 import { Link } from "react-router-dom";
 function BookingsTable() {
-  const { bookingData, isLoading, isError } = useSelector(
-    (store) => store.booking
-  );
+  const { bookingData, isLoading } = useSelector((store) => store.booking);
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getBookings());
   }, [dispatch]);
-  console.log(bookingData);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -20,8 +19,10 @@ function BookingsTable() {
   return (
     <UserLayout>
       {bookingData.length === 0 ? (
-        <div class="flex flex-col items-center justify-center w-screen h-screen bg-white">
-          <p class="text-5xl text-dark md:text-7xl lg:text-4xl">No Bookings </p>
+        <div className="flex flex-col items-center justify-center w-screen h-screen bg-white">
+          <p className="text-5xl text-dark md:text-7xl lg:text-4xl">
+            No Bookings
+          </p>
           <Link to="/">
             <button className="mt-8 bg-zinc-800 rounded-lg p-3 text-white">
               Go To Home
@@ -36,7 +37,7 @@ function BookingsTable() {
             <table className="w-full whitespace-nowrap">
               <thead>
                 <tr className="h-16 w-full text-sm leading-none text-gray-800">
-                  <th className="font-normal text-left pl-4">Car </th>
+                  <th className="font-normal text-left pl-4">Car</th>
                   <th className="font-normal text-left pl-12">Address</th>
                   <th className="font-normal text-left pl-12">Pick up</th>
                   <th className="font-normal text-left pl-20">Drop off</th>
@@ -45,14 +46,18 @@ function BookingsTable() {
                 </tr>
               </thead>
               <tbody className="w-full">
-                {bookingData.map((data) => (
-                  <tr className="h-20 text-sm leading-none text-gray-800 bg-white hover:bg-gray-100 border-b border-t border-gray-100">
+                {bookingData.map((data, i) => (
+                  <tr
+                    className="h-20 text-sm leading-none text-gray-800 bg-white hover:bg-gray-100 border-b border-t border-gray-100"
+                    key={i}
+                  >
                     <td className="pl-4 cursor-pointer">
                       <div className="flex items-center">
                         <div className="w-15 h-10">
                           <img
                             className="w-full h-full"
                             src={data?.car?.imageUrl[0]}
+                            alt="car_img"
                           />
                         </div>
                         <div className="pl-4">
@@ -72,14 +77,14 @@ function BookingsTable() {
                     <td className="pl-12">
                       <p className="font-medium">{data?.pickUpLocation}</p>
                       <p className="text-xs leading-3 text-gray-600 mt-2">
-                        Date:{" "}
+                        Date:
                         {data?.pickUpTime
                           .replace(/T/, " ")
                           .replace(/\..+/, "")
                           .slice(0, 11)}
                       </p>
                       <p className="text-xs leading-3 text-gray-600 mt-2">
-                        Time:{" "}
+                        Time:
                         {data?.pickUpTime
                           .replace(/T/, " ")
                           .replace(/\..+/, "")
@@ -105,7 +110,7 @@ function BookingsTable() {
                       </p>
                     </td>
                     <td className="pl-20">
-                      <p className="font-medium">₹ {data?.total}</p>
+                      <p className="font-medium">₹{data?.total}</p>
                       <p className="text-xs leading-3 text-gray-600 mt-2">
                         {data?.payment}
                       </p>

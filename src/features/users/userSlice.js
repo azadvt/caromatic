@@ -14,8 +14,6 @@ const initialState = {
       const token = thunkAPI.getState().adminAuth?.admin?.token
 
       const data =  await userService.getUsers(token)
-      console.log(data);
-
       return data
     } catch (error) {
       const message = (error.response &&

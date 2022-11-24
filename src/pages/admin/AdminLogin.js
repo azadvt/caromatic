@@ -12,7 +12,6 @@ function AdminLogin() {
     formState: { errors },
   } = useForm();  
   const onSubmit = async data => { 
-    console.log(data); 
     dispatch(adminLogin(data))
   };
 
