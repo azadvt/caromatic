@@ -1,5 +1,5 @@
 import axios  from "axios";
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 const API_URL_USER = 'api/users/'
 const API_URL_ADMIN ='api/admin/'
