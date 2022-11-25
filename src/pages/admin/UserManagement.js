@@ -51,6 +51,14 @@ function UserManagement2() {
   const columns = useMemo(
     () => [
       {
+        Header: "Index",
+        accessor: "",
+        Cell: (row) => {
+            return <div>{Number(row.row.id) + 1}</div>;
+        },
+        disableSortBy: true,
+        disableFilters: true,
+    },{
         Header: "Name",
         accessor: "name",
       },

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect ,useState} from "react";
 import {
   useTable,
   useSortBy,
@@ -6,7 +6,7 @@ import {
   usePagination,
 } from "react-table";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCar, getCars } from "../../features/Car/carSlice";
+import { deleteCar, getCars, reset } from "../../features/Car/carSlice";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import AdminLayout from "../../components/Layout/Admin/AdminLayout";
@@ -17,10 +17,17 @@ import swal from 'sweetalert';
 
 function AdminCars() {
   const dispatch = useDispatch();
-  const { carData, isLoading, isSuccess } = useSelector(
-    (state) => state.car
-  );
+  const{carData,filterCarsData,isError,isLoading,isSuccess,message} = useSelector((state) => state.car); 
+   useEffect(() => {  
+    dispatch(getCars());
+    return () =>{
+      dispatch(reset())
+    }
+     
+   }, []);
+   const data = carData
 
+ 
   const handleDelete = (id) => {
     swal({
       title: "Are you sure to Delete this Car?",
@@ -41,13 +48,17 @@ function AdminCars() {
     });
   };
 
-  useEffect(() => {
-    dispatch(getCars());
-  }, []);
-  const data = carData;
   const columns = useMemo(
     () => [
-     
+      {
+        Header: "Index",
+        accessor: "",
+        Cell: (row) => {
+            return <div>{Number(row?.row?.id) + 1}</div>;
+        },
+        disableSortBy: true,
+        disableFilters: true,
+    },
       {
         Header: "Name",
         accessor: "name",
@@ -72,7 +83,7 @@ function AdminCars() {
         Header: "Edit",
           Cell: (row) => (
           <div>
-            <button onClick={() => alert(row.value)}>
+            <button onClick={() => console.log(row?.cell?.row?.original._id)}>
               <img src={edt} alt="" width={15} />
             </button>
           </div>
@@ -94,7 +105,6 @@ function AdminCars() {
   );
 
  
-
   const tableInstance = useTable(
     {
       columns,
@@ -123,11 +133,11 @@ function AdminCars() {
   } = tableInstance;
   const { pageIndex, pageSize } = state;
   const { globalFilter } = state;
+  console.log(data);
 
-
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+  // if (isLoading) {
+  //   return <LoadingSpinner />;
+  // }
   return (
     <AdminLayout>
       <div className="flex flex-row-reverse">
@@ -239,6 +249,7 @@ function AdminCars() {
           </span>
         </div>
       </div>
+      log
     </AdminLayout>
   );
 }

@@ -21,7 +21,10 @@ const getCars = async(token)=> {
             Authorization:`Bearer ${token}`
         }
     }
+    console.log("worked getcars service");
+
     const response = await axios.get(API_URL_ADMIN+'get-cars',config)
+    console.log("response",response);
     return response.data    
 }
 

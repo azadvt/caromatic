@@ -33,7 +33,7 @@ export const addCar = createAsyncThunk(
 export const getCars = createAsyncThunk("car/getCars",async(_,thunkAPI)=>{
       try {
         const token = thunkAPI.getState().adminAuth?.admin?.token
-
+        
         return await carService.getCars(token)
       } catch (error) {
         const message = (error.response &&
@@ -66,6 +66,7 @@ export const carSlice = createSlice({
   initialState,
   reducers: {
     reset: (state) => {
+      state.carData = []
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;
@@ -95,16 +96,20 @@ export const carSlice = createSlice({
       })
       .addCase(getCars.pending, (state) => {
         state.isLoading = true;
+        console.log("pending")
       })
       
       .addCase(getCars.fulfilled,(state,action)=>{
         state.isLoading = false
         state.carData = action.payload
+        console.log(action.payload);
+        console.log("fulfilled");
 
       }).addCase(getCars.rejected,(state,action)=>{
         state.isLoading = false
         state.isError = true
         state.message = action.payload
+        console.log("rejected");
       })
       .addCase(deleteCar.pending, (state) => {
         state.isLoading = true;

@@ -23,7 +23,6 @@ function AddCar() {
     watch,
     formState: { errors },
   } = useForm();
-
   const onSubmit = async (data) => {
     const {
       name,
@@ -48,7 +47,8 @@ function AddCar() {
     swal("Car Details was Added Successfully", {
       icon: "success",
     });
-    navigate('/admin/cars')
+    setTimeout(navigate("/admin/"),4000)
+    
   };
 
   var percentage = progress + "%";
@@ -136,7 +136,7 @@ function AddCar() {
               className="bg-gray-100 hover:bg-zinc-100 active:bg-zinc-200 py-4 px-4 rounded-lg border-none flex justify-between items-center w-full"
               {...register("type", { required: "Please choose type of car" })}
             >
-              <option className="text-zinc-500" value="" disabled selected>
+              <option className="text-zinc-500"  disabled selected>
                 Select your Car Type
               </option>
               {TYPES.map((type,i) => {
